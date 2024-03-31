@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package tasksApi;
+
+option go_package = "./proto-gen/tasksApi";
+
+service TaskService {
+  rpc AddTask(AddTaskReq)       returns (AddTaskResp);
+  rpc UpdateTask(UpdateTaskReq) returns (UpdateTaskResp);
+  rpc DeleteTask(DeleteTaskReq) returns (DeleteTaskResp);
+  rpc ListTasks(ListTasksReq)   returns (ListTasksResp);
+  rpc Ping(PingReq)             returns (PingResp);
+}
+
+message Task {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+}
+
+message AddTaskReq {
+  Task task = 1;
+}
+
+message UpdateTaskReq {
+  Task task = 1;
+}
+
+message DeleteTaskReq {
+  Task task = 1;
+}
+
+message ListTasksReq { }
+
+message PingReq {
+
+}
+
+message AddTaskResp {
+  bool status = 1;
+}
+
+message UpdateTaskResp {
+  bool status = 1;
+}
+
+message DeleteTaskResp {
+  bool status = 1;
+}
+
+message ListTasksResp {
+  repeated Task tasks = 1;
+}
+
+message PingResp {
+  bool status = 1;
+}

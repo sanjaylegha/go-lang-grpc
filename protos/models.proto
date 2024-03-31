@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package tasks.models;
+
+option go_package = "./protos/tasks/models";
+
+message Task {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+}
