@@ -53,10 +53,6 @@ protoc -I=./protos --go_out=./tasks-backend --go-grpc_out=require_unimplemented_
 ```
 
 
-
-
-
-
 # Building UI
 
 Create a New React Project:
@@ -73,7 +69,52 @@ npm start
 ```
 
 
-protoc -I=./protos --go_out=./tasks-backend --go-grpc_out=require_unimplemented_servers=false:./tasks-backend tasks_api.proto
+#Configure gRPC in Web Project.
 
-protoc --I=./protos --js_out=library=mylibrary,binary:out tasks_api.proto
-protoc --I=./protos --js_out=import_style=commonjs,binary:out tasks_api.proto
+For gRPC class lets use  `grpc-web` package.
+
+## Install `grpc-web` in UI project 
+
+```
+npm i grpc-web
+npm install grpc-web
+```
+
+## Download `protoc-gen-grpc-web` protoc plugin.
+
+Further reference can be taken from here - [grpc.io](https://grpc.io/)
+
+Download be referenced from the [release](https://github.com/grpc/grpc-web/releases) page.
+
+If you don't already have `protoc` installed, you will have to download it
+first from [here](https://github.com/protocolbuffers/protobuf-javascript/releases).
+
+**Note:** Make sure they are both (`protoc`, `protoc-gen-grpc-web`) executable and are discoverable from your PATH.
+
+For example, in Linux, you can do:
+
+Make sure to re-name the file: `protoc-gen-grpc-web`
+
+```
+sudo mv ~/Downloads/protoc-gen-grpc-web-1.5.0-linux-x86_64 $GOBIN
+chmod +x protoc-gen-grpc-web
+```
+
+## Client Configuration Options
+
+Typically, you will run the following command to generate the proto messages
+and the service client stub from your `.proto` definitions:
+
+```sh
+$ protoc -I=$DIR echo.proto \
+    --js_out=import_style=commonjs:$OUT_DIR \
+    --grpc-web_out=import_style=commonjs,mode=grpcwebtext:$OUT_DIR
+```
+
+### Generate JS Files
+
+```
+protoc -I=./protos tasks_api.proto \
+  --js_out=import_style=commonjs:./task-manager-ui/src/gen/ \
+  --grpc-web_out=import_style=commonjs,mode=grpcwebtext:./task-manager-ui/src/gen
+```
